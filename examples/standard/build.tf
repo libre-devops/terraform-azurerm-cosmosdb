@@ -1,3 +1,8 @@
+resource "random_string" "random" {
+  length           = 4
+  special          = false
+}
+
 module "rg" {
   source = "registry.terraform.io/libre-devops/rg/azurerm"
 
@@ -16,9 +21,8 @@ module "cosmosdb" {
   location = module.rg.rg_location
   tags     = module.rg.rg_tags
 
-  cosmosdb_name = "cosmos-test"
-
+  cosmosdb_name = "cosmos-${var.short}-${var.loc}-${terraform.workspace}-${lower(random_string.random.result)}"
+  identity
   cosmosdb_account_properties = {}
-
 }
 

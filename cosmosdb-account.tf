@@ -8,7 +8,7 @@ resource "azurerm_cosmosdb_account" "cosmos_db" {
   kind                                  = var.kind
   mongo_server_version                  = var.kind == "MongoDB" ? var.mongo_server_version : null
   enable_automatic_failover             = var.enable_automatic_failover
-  create_mode                           = title(var.create_mode)
+  create_mode = length(var.cosmosdb_account_properties) > 0 && lookup(var.cosmosdb_account_properties, "backup.type", "") == "Continuous" ? var.create_mode : null
   analytical_storage_enabled            = var.analytical_storage_enabled
   default_identity_type                 = var.cosmos_keyvault_identity_type
   enable_free_tier                      = var.enable_free_tier
