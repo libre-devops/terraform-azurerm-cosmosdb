@@ -8,7 +8,7 @@ resource "azurerm_cosmosdb_account" "cosmos_db" {
   kind                                  = var.kind
   mongo_server_version                  = var.kind == "MongoDB" ? var.mongo_server_version : null
   enable_automatic_failover             = var.enable_automatic_failover
-  create_mode                           = title(lookup(var.cosmosdb_account_properties.backup, "type", null)) == "Continuous" ? title(var.create_mode) : null
+  create_mode                           = title(var.create_mode)
   analytical_storage_enabled            = var.analytical_storage_enabled
   default_identity_type                 = var.cosmos_keyvault_identity_type
   enable_free_tier                      = var.enable_free_tier
@@ -57,13 +57,14 @@ resource "azurerm_cosmosdb_account" "cosmos_db" {
     }
   }
   dynamic "geo_location" {
-    for_each = var.failover_locations != null ? var.failover_locations : null
+    for_each = var.failover_locations != null ? var.failover_locations : local.failover_locations
     content {
       location          = geo_location.value.location
       failover_priority = lookup(geo_location.value, "priority", 0)
       zone_redundant    = lookup(geo_location.value, "zone_redundant", false)
     }
   }
+
 
   consistency_policy {
     consistency_level       = var.consistency_policy_level
