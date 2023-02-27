@@ -64,7 +64,4 @@ No requirements.
 
 ## Outputs
 
-| Name | Description |
-|------|-------------|
-| <a name="output_non_sensitive"></a> [non\_sensitive](#output\_non\_sensitive) | A non sensitive value |
-| <a name="output_sensitive"></a> [sensitive](#output\_sensitive) | Sensitive |
+No outputs.
