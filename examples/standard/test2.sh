@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-
-
-function tfrel ()
-{
+function tfrel() {
     print_success() {
         lightcyan='\033[1;36m'
         nocolor='\033[0m'
@@ -30,28 +27,34 @@ function tfrel ()
         rm -rf README.md
         stfi
         stfo
-        if [ -f build.tf ];  then
-            echo "" > README.md && echo '```hcl' | cat - build.tf |  echo '```' | cat - README.md > temp.md && mv temp.md README.md
-
+        if [ -f build.tf ]; then
+            cat <<EOF >README.md
+\`\`\`hcl
+$(cat build.tf)
+\`\`\`
+EOF
         elif [ -f main.tf ]; then
-            echo "" > README.md && echo '```hcl' | cat - main.tf |  echo '```' | cat - README.md > temp.md && mv temp.md README.md
-
+            cat <<EOF >README.md
+\`\`\`hcl
+$(cat main.tf)
+\`\`\`
+EOF
         else
             print_alert "Not a build directory, no build.tf found"
         fi
-        terraform-docs markdown . >> README.md
+        terraform-docs markdown . >>README.md
         git add --all
         git commit -m "Update module"
         git push
         git tag 1.0.0 --force
         git push --tags --force
-
     else
         print_error "Error: No terraform files found within ${curdir}";
     fi
 }
 
 echo "Appending functions to .bashrc"
-echo "" >> ~/.bashrc
-echo "# Define tfrel function" >> ~/.bashrc
-declare -f tfrel >> ~/.bashrc
+echo "" >>~/.bashrc
+echo "# Define tfrel function" >>~/.bashrc
+declare -f tfrel >>~/.bashrc
+
