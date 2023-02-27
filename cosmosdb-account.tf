@@ -1,4 +1,4 @@
-resource "azurerm_cosmosdb_account" "db" {
+resource "azurerm_cosmosdb_account" "cosmos_db" {
   name = var.cosmosdb_name
 
   location            = var.location
@@ -8,7 +8,7 @@ resource "azurerm_cosmosdb_account" "db" {
   kind                                  = var.kind
   mongo_server_version                  = var.kind == "MongoDB" ? var.mongo_server_version : null
   enable_automatic_failover             = var.enable_automatic_failover
-  create_mode                           = lookup(var.cosmosdb_account_properties.backup, "type", null) == "Continuous" ? var.create_mode : null
+  create_mode                           = title(lookup(var.cosmosdb_account_properties.backup, "type", null)) == "Continuous" ? title(var.create_mode) : null
   analytical_storage_enabled            = var.analytical_storage_enabled
   default_identity_type                 = var.cosmos_keyvault_identity_type
   enable_free_tier                      = var.enable_free_tier

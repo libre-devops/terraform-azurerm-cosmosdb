@@ -1,3 +1,9 @@
+variable "access_key_metadata_writes_enabled" {
+  type        = bool
+  description = "Whether key metadata writes is enabled"
+  default     = false
+}
+
 variable "allowed_cidrs" {
   type        = list(string)
   description = "CosmosDB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IP's for a given database account."
@@ -51,6 +57,12 @@ variable "consistency_policy_max_staleness_prefix" {
   default     = 200
 }
 
+variable "cosmos_keyvault_identity_type" {
+  type        = string
+  description = "The type of managed identity that the CosmosDB will use to access a key vault, defaults to SystemAssignedIdentity"
+  default     = "SystemAssignedIdentity"
+}
+
 variable "cosmosdb_account_properties" {
   type        = map(any)
   description = "The block for nested configuration of the configuration blocks of the module"
@@ -62,9 +74,33 @@ variable "cosmosdb_name" {
   description = "The name for the cosmosdb account"
 }
 
+variable "create_mode" {
+  type        = string
+  description = "The createmode of the cosmosdb account"
+  default     = "Default"
+}
+
 variable "enable_automatic_failover" {
   type        = bool
   description = "Whether automatic failover should be enabled"
+  default     = false
+}
+
+variable "enable_cmk_support" {
+  type        = bool
+  description = "Whether customer managed key encryption is enabled"
+  default     = false
+}
+
+variable "enable_free_tier" {
+  type        = bool
+  description = "Whether the free tier is enabled"
+  default     = false
+}
+
+variable "enable_multiple_write_locations" {
+  type        = bool
+  description = "Determines whether multiple write locations are enabled, defaults to false"
   default     = false
 }
 
@@ -92,10 +128,28 @@ variable "is_virtual_network_filter_enabled" {
   default     = false
 }
 
+variable "key_vault_id" {
+  type        = string
+  description = "If a key vault is enabled for CMK, its id"
+  default     = null
+}
+
+variable "key_vault_url" {
+  type        = string
+  description = "If customer CMK is enabled, the URL for the key vault"
+  default     = null
+}
+
 variable "kind" {
   type        = string
   description = "Specifies the Kind of CosmosDB to create - possible values are `GlobalDocumentDB` and `MongoDB`."
   default     = "GlobalDocumentDB"
+}
+
+variable "local_auth_disabled" {
+  type        = bool
+  description = "Whether local auth is enabled, defaults to false"
+  default     = false
 }
 
 variable "location" {
