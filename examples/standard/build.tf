@@ -1,6 +1,6 @@
 resource "random_string" "random" {
-  length           = 4
-  special          = false
+  length  = 4
+  special = false
 }
 
 module "rg" {
@@ -21,8 +21,8 @@ module "cosmosdb" {
   location = module.rg.rg_location
   tags     = module.rg.rg_tags
 
-  cosmosdb_name = "cosmos-${var.short}-${var.loc}-${terraform.workspace}-${lower(random_string.random.result)}"
-  identity_type = "SystemAssigned"
+  cosmosdb_name               = "cosmos-${var.short}-${var.loc}-${terraform.workspace}-${lower(random_string.random.result)}"
+  identity_type               = "SystemAssigned"
   cosmosdb_account_properties = {}
 }
 
