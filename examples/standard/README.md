@@ -24,6 +24,7 @@ module "cosmosdb" {
   tags     = module.rg.rg_tags
 
   cosmosdb_name               = "cosmos-${var.short}-${var.loc}-${terraform.workspace}-${lower(random_string.random.result)}"
+  cosmos_keyvault_identity_type = "FirstPartyIdentity"
   identity_type               = "SystemAssigned"
   cosmosdb_account_properties = {}
 }
